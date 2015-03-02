@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<!-- MathJax: -->
+<!-- see http://docs.mathjax.org/en/latest/start.html -->
+<!-- see http://docs.mathjax.org/en/latest/options/tex2jax.html#configure-tex2jax -->
+<!-- see http://docs.mathjax.org/en/latest/tex.html -->
+<!-- Latex Online Editor: http://www.codecogs.com/latex/eqneditor.php -->
+<head>
+<title>Elevation-Climb Kalman Filter</title>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+<body>
+
+<h2>Introduction</h2>
+During hiking it is often nice to know your climb rate, i.e. how many meters per hour you go up.
+The following presents an attempt to derive the climb rate from a GPS log with elevation data.
+
+<h2>Linear Kalman Filter Equations revisited</h2>
+See <A HREF="http://www.cs.unc.edu/~tracker/media/pdf/SIGGRAPH2001_CoursePack_08.pdf">Welch/Bishop: An Introduction to the Kalman Filter</A>, section 4.1 for details
+<P>
+The process model describes the propagation of the system state \(x\) influenced by control input \(u\) and process noise \(w\): 
+\[ x_{k} = A x_{k-1} + B u_{k} + w_{k-1}\]
+The measurement model describes how measured values \(z\) are related to the state \(x\) and the measurement noise \(v\):
+\[ z_{k} = H x_{k} + v_{k} \]
+The process noise \(w\) and measurement noise \(v\) is assumed to be uncorrelated, white noise with normal disributions 
+\[ p(w) \sim N (0, Q) \]
+\[ p(v) \sim N (0, R) \]
+\(Q\) is the process noise covariance matrix and \(R\) is the measurment noise covariance matrix.
+<P>
+Then the <B>Kalman Filter equations</B> are as follows:
+<P>
+Time Update / Prediction:
+\[ \hat{x}_{k}^{-} = A \hat{x}_{k-1} + B u_{k} \]
+\[ P_{k}^{-} = A P_{k-1} A^{T} + Q_{k} \]
+Measurement Update / Correction:
+\[ K_{k}=P_{k}^{-}H^{T}(HP_{k}^{-}H^{T}+R_{k})^{-1} \]
+\[ \hat{x}_{k} = \hat{x}_{k}^{-} + K_{k}(z_{k}-H\hat{x}_{k}^{-}) \]
+\[ P_{k}=(I-K_{k}H)P_{k}^{-} \]
+
+<h2>Modeling</h2>
+With elevation \(e\) and climb rate \(c\), we define the state vector as: 
+\[ \vec{x} = \binom{e}{c} \]
+The process model, assuming a constant climb rate is then
+\[
+\vec{x}_{k+1} = A \vec{x}_{k} = \begin{pmatrix}
+1 & \Delta t\\ 
+0 & 1 
+\end{pmatrix}\vec{x}_{k}
+\]
+The measurement model, taking the GPS elevation as measurement \(x\) is then: 
+\[
+\vec{z} = H \vec{x} = 
+\begin{pmatrix}
+1 & 0
+\end{pmatrix}
+\vec{x}
+\]
+
+<h2>Kalman Filter tuning</h2>
+The behaviour of the filter with the given process and measurement model dependens mainly on how we chose the process noise \(w\) and measurement noise \(v\).
+<BR>
+The measurement noise should reflect how accurate the elevation measurement is. 
+This depends on the type of sensor: Elevations measured by GPS are often noisy, elevations measured by a barometric pressure sensor have a better relative accuracy.
+<BR>
+The process noise describes how stiff the climb rate is to be assumed and how large we allow the estimated elevation to deviate from the measurement.
+
+<h2>Additional considerations</h2>
+How should stand-still phases (pauses) be considered for climb rate calculation? I.e. should a stabd-still filter be implemented?
+
+</body>
+</html>

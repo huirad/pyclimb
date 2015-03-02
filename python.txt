@@ -1,0 +1,16 @@
+Some Python Notes
+
+1.) Using the ElementTree mdule
+1.a) Flat search in the tree
+Instead of hierarchically stepping down the tree, a flat search can be done by any of
+    for elem in root.findall('.//'+GPX_NAMESPACE+'trkpt'):
+    for elem in tree.findall('//'+GPX_NAMESPACE+'trkpt'):
+1.b) Using namkespaces
+Instead of specifying the namespace URL explicitly, you can define and use a namespace like
+    namespaces = {'gpx': 'http://www.topografix.com/GPX/1/1'}
+    for trkpt in trkseg.findall('gpx:trkpt', namespaces):
+
+2.) Matplotlib
+2.a) Multiple axes
+    http://matplotlib.org/examples/api/two_scales.html
+    http://matplotlib.org/faq/howto_faq.html#multiple-y-axis-scales
