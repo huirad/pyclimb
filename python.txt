@@ -17,3 +17,15 @@ Instead of specifying the namespace URL explicitly, you can define and use a nam
 2.b) Font setting
     http://matplotlib.org/users/customizing.html
     http://stackoverflow.com/questions/3899980/how-to-change-the-font-size-on-a-matplotlib-plot
+2.c) Backend selection
+    In my openSuSE installation, by default no graph is shown because the matplotlib backend is not pre-set.
+    To set the backend, 
+    - either insert
+        mpl.use('TkAgg')
+      between
+        import matplotlib as mpl
+      and
+        import matplotlib.pyplot as plt
+    - or (see http://matplotlib.org/users/customizing.html): set the backend by placing
+        backend      : TkAgg
+      in .config/matplotlib/matplotlibrc
