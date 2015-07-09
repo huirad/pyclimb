@@ -1,23 +1,30 @@
 Some Python Notes
 
 1.) Using the ElementTree module
+================================
 1.a) Flat search in the tree
+----------------------------
 Instead of hierarchically stepping down the tree, a flat search can be done by any of
     for elem in root.findall('.//'+GPX_NAMESPACE+'trkpt'):
     for elem in tree.findall('//'+GPX_NAMESPACE+'trkpt'):
 1.b) Using namespaces
+---------------------
 Instead of specifying the namespace URL explicitly, you can define and use a namespace like
     namespaces = {'gpx': 'http://www.topografix.com/GPX/1/1'}
     for trkpt in trkseg.findall('gpx:trkpt', namespaces):
 
 2.) Matplotlib
+==============
 2.a) Multiple axes
+------------------
     http://matplotlib.org/examples/api/two_scales.html
     http://matplotlib.org/faq/howto_faq.html#multiple-y-axis-scales
 2.b) Font setting
+-----------------
     http://matplotlib.org/users/customizing.html
     http://stackoverflow.com/questions/3899980/how-to-change-the-font-size-on-a-matplotlib-plot
 2.c) Backend selection
+----------------------
     In my openSuSE installation, by default no graph is shown because the matplotlib backend is not pre-set.
     To set the backend, 
     - either insert
@@ -29,3 +36,46 @@ Instead of specifying the namespace URL explicitly, you can define and use a nam
     - or (see http://matplotlib.org/users/customizing.html): set the backend by placing
         backend      : TkAgg
       in .config/matplotlib/matplotlibrc
+
+3.) Python Style Guide and Coding conventions
+=============================================
+To ensure readability, maintainability and consistency of the code,
+the following coding and documentation conventions shall apply be followed
+- PEP 008: https://www.python.org/dev/peps/pep-0008/
+- PEP 257: https://www.python.org/dev/peps/pep-0257/
+- For comments, in particular the google style has to be followed
+  http://google.github.io/styleguide/pyguide.html?showone=Comments#Comments
+
+Example pydoc command line: 
+python C:\Python34\Lib\pydoc.py -w pyclimb 
+  
+3.a) Module Header
+------------------
+In particular, each Python module shall start with
+- a copyright statement (behind #)
+- __author__, __version__ , __date__, __credits__ variables
+- a docstring for the module
+
+
+Example:
+##########################################################################
+#
+# Copyright (C) 2015, Helmut Schmidt
+#
+# License:
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+##########################################################################
+__author__ = "Helmut Schmidt, https://github.com/huirad"
+__version__ = "0.2"
+__date__ = "2015-07-09"
+__credits__ = "http://www.cs.unc.edu/~welch/kalman/"
+
+"""
+Example Module for XXXX.
+
+Provides guidelines on coding and documentation conventions.
+
+""" 

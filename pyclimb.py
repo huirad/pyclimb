@@ -10,6 +10,10 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
 ##########################################################################
+__author__ = "Helmut Schmidt, https://github.com/huirad"
+__version__ = "0.2"
+__date__ = "2015-07-09"
+__credits__ = "http://www.cs.unc.edu/~welch/kalman/"
 
 """Determine the climb rate from a GPS log with elevation data.
 
