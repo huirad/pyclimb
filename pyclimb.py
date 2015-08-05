@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-##########################################################################
+#######################################################################
 #
 # Copyright (C) 2015, Helmut Schmidt
 #
@@ -9,7 +9,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
-##########################################################################
+#######################################################################
 
 """Determine the climb rate from a GPS log with elevation data.
 
@@ -22,10 +22,19 @@ Args:
 """
 
 __author__ = "Helmut Schmidt, https://github.com/huirad"
-__version__ = "0.2"
-__date__ = "2015-07-09"
-__credits__ = "Copyright: Helmut Schmidt. License: MPL2"
+__version__ = "0.3"
+__date__ = "2015-08-04"
+__credits__ = "Copyright: Helmut Schmidt. License: MPLv2"
 
+#######################################################################
+#
+# Module-History
+#  Date         Author              Reason
+#  02-Mar-2015  Helmut Schmidt      v0.1 Initial version
+#  09-Jul-2015  Helmut Schmidt      v0.2 Improve source documentation
+#  05-Aug-2015  Helmut Schmidt      v0.3 Remove pylint warnings
+#
+#######################################################################
 
 
 import xml.etree.ElementTree as ET
@@ -48,17 +57,23 @@ class Track:
 
     The attributes of the trackpoints will be filled in flat lists.
 
-    Attributes:
-        timestamp: A list containing the timestamps of the trackpoints.
-            Unit of measurement: seconds.
-        lat: A list containing the latitude of the trackpoints.
-            Unit of measurement: degrees.
-        lon: A list containing the longitude of the trackpoints.
-            Unit of measurement: degrees.
-        ele: A list containing the elevation of the trackpoints.
-            Unit of measurement: meter
-        climb: A list containing the calculated climb rate.
-            Unit of measurement: meters per hour.
+    Attributes
+    ----------
+    timestamp: float
+        A list containing the timestamps of the trackpoints.
+        Unit of measurement: seconds.
+    lat: float[]
+        A list containing the latitude of the trackpoints.
+        Unit of measurement: degrees.
+    lon: float[] 
+        A list containing the longitude of the trackpoints.
+        Unit of measurement: degrees.
+    ele: float[] 
+        A list containing the elevation of the trackpoints.
+        Unit of measurement: meter
+    climb: float[]
+        A list containing the calculated climb rate.
+        Unit of measurement: meters per hour.
     """
 
     def __init__(self):
@@ -108,10 +123,13 @@ class Track:
         The following attributes are read from each trackpoint:
             timestamp, latitude, longitude, elevation
 
-        Args:
-            file: A string containing the name of the .gpx file.
-            time_relative: If True, set timestamps will relative to
-                the first timestamp.
+        Parameters
+        ----------
+        file: string
+            The name of the .gpx file do read
+        time_relative: bool
+            If True, set timestamps will relative to
+            the first timestamp.
         """
         first_trackpt = True
         tree = ET.parse(file)
@@ -119,7 +137,10 @@ class Track:
         for track in root.findall(GPX_NAMESPACE+'trk'):
             for trkseg in track.findall(GPX_NAMESPACE+'trkseg'):
                 for trkpt in trkseg.findall(GPX_NAMESPACE+'trkpt'):
-                    self._append_gps_trkpt(trkpt, first_trackpt, time_relative)
+                    self._append_gps_trkpt(
+                        trkpt, 
+                        first_trackpt, 
+                        time_relative)
                     first_trackpt = False
 
 
@@ -130,7 +151,8 @@ class ClimbKF:
     All measurement units are according SI.
 
     Attributes:
-        No public attributes: use getter functions to retrieve the current state
+        No public attributes. 
+        Use getter functions to retrieve the current state.
 
     Internals:
         _count_updates: Number of processed elevation updates.

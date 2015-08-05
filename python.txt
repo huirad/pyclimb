@@ -79,3 +79,11 @@ Example Module for XXXX.
 Provides guidelines on coding and documentation conventions.
 
 """ 
+
+
+
+python3-numpydoc!!!!
+python3-matplotlib-qt4 !!
+
+http://sphinx-doc.org/tutorial.html
+sudo pip install git+https://github.com/sphinx-doc/sphinx@stable
