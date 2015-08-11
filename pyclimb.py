@@ -59,7 +59,7 @@ class Track:
 
     Attributes
     ----------
-    timestamp: float
+    timestamp: float[]
         A list containing the timestamps of the trackpoints.
         Unit of measurement: seconds.
     lat: float[]
@@ -77,7 +77,15 @@ class Track:
     """
 
     def __init__(self):
-        """Initialize all attributes as empty lists."""
+        """Default constructor
+        
+        Initialize all attributes as empty lists.
+        
+        Parameters
+        ----------
+        none
+        
+        """
         self.timestamp = []
         self.lat = []
         self.lon = []
@@ -90,8 +98,9 @@ class Track:
 
         This is a private method
 
-        Args:
-            trkpt: An ET xml node representing a gpx trkpt
+        Parameters
+        ----------
+        trkpt: An ET xml node representing a gpx trkpt
 
         """
         lat = float(trkpt.attrib.get('lat'))
@@ -121,7 +130,7 @@ class Track:
         """Read a GPS track from a .gpx file.
 
         The following attributes are read from each trackpoint:
-            timestamp, latitude, longitude, elevation
+        timestamp, latitude, longitude, elevation
 
         Parameters
         ----------
@@ -150,27 +159,40 @@ class ClimbKF:
 
     All measurement units are according SI.
 
-    Attributes:
-        No public attributes. 
-        Use getter functions to retrieve the current state.
+    Attributes
+    ----------
+    No public attributes. 
+    Use getter functions to retrieve the current state.
 
-    Internals:
-        _count_updates: Number of processed elevation updates.
-        _last_time: Timestamp of the last levation update.
-        _q_climb: Process noise of the climb rate [(m/s)^2 / s].
-        _q_ele: Process noise of the elevation  [(m)^2 / s].
-        _r_ele: Measurement noise of the elevation [(m)^2].
-        _state: state vector (elevation, climb).
-        _cov: error covariance matrix.
+    Internals
+    ---------
+    _count_updates: int
+        Number of processed elevation updates.
+    _last_time: time
+        Timestamp of the last levation update.
+    _q_climb: float
+        Process noise of the climb rate [(m/s)^2 / s].
+    _q_ele: float
+        Process noise of the elevation  [(m)^2 / s].
+    _r_ele: float
+        Measurement noise of the elevation [(m)^2].
+    _state: float[]
+        state vector (elevation, climb).
+    _cov: float[][]
+        error covariance matrix.
     """
 
     def __init__(self, q_ele, q_climb, r_ele):
         """ Initialize internal variables.
 
-        Args:
-            q_ele: Process noise of the elevation [(m)^2 / s]
-            q_climb: Process noise of the climb rate [(m/s)^2 / s]
-            r_ele: Measurement noise of the elevation [(m)^2]
+        Parameters
+        ----------
+        q_ele: float
+            Process noise of the elevation [(m)^2 / s]
+        q_climb: float
+            Process noise of the climb rate [(m/s)^2 / s]
+        r_ele: float
+            Measurement noise of the elevation [(m)^2]
         """
 
         #number of updates.
@@ -191,8 +213,10 @@ class ClimbKF:
     def _time_update(self, time):
         """ Private method for the time update/prediction step.
 
-        Args:
-            time: timestamp of measurement [s].
+        Parameters
+        ----------
+        time: float
+            timestamp of measurement [s].
         """
         #first construct the state propagation matrix
         time_diff = time - self._last_time
@@ -208,8 +232,10 @@ class ClimbKF:
     def _measurement_update(self, ele):
         """ Private method for the measurement update/correction step.
 
-        Args:
-            ele: elevation measurement [m].
+        Parameters
+        ----------
+        ele: float
+            elevation measurement [m].
         """
         #measurement matrix
         mat_h = np.matrix([[1, 0]], float)
@@ -225,8 +251,10 @@ class ClimbKF:
     def _first_update(self, ele):
         """ Private method for the first update.
 
-        Args:
-            ele: the elevation for the starting point.
+        Parameters
+        ----------
+        ele: float
+            the elevation for the starting point.
         """
         self._state = np.matrix([[ele], [0]], float)
         self._cov = np.matrix([[self._r_ele, 0], [0, 1000*1000]], float)
@@ -237,9 +265,14 @@ class ClimbKF:
 
         Time Update and Measurement Update in one function.
 
-        :param time: timestamp of measurement [s].
-        :param ele: elevation measurement [m].
-        :param track: track object where to store the results.
+        Parameters
+        ----------
+        time: float
+            timestamp of measurement [s].
+        ele: float
+            elevation measurement [m].
+        track: Track
+            track object where to store the results.
         """
 
         if self._count_updates != 0:
