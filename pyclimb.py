@@ -66,10 +66,10 @@ class Track:
     lat: float[]
         A list containing the latitude of the trackpoints.
         Unit of measurement: degrees.
-    lon: float[] 
+    lon: float[]
         A list containing the longitude of the trackpoints.
         Unit of measurement: degrees.
-    ele: float[] 
+    ele: float[]
         A list containing the elevation of the trackpoints.
         Unit of measurement: meter
     climb: float[]
@@ -82,7 +82,7 @@ class Track:
         Parameters
         ----------
         none
-        
+
         """
         self.timestamp = []
         self.lat = []
@@ -145,8 +145,8 @@ class Track:
             for trkseg in track.findall(GPX_NAMESPACE+'trkseg'):
                 for trkpt in trkseg.findall(GPX_NAMESPACE+'trkpt'):
                     self._append_gps_trkpt(
-                        trkpt, 
-                        first_trackpt, 
+                        trkpt,
+                        first_trackpt,
                         time_relative)
                     first_trackpt = False
 
@@ -159,7 +159,7 @@ class ClimbKF:
 
     Attributes
     ----------
-    No public attributes. 
+    No public attributes.
     Use getter functions to retrieve the current state.
 
     Internals
