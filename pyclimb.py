@@ -17,8 +17,10 @@ GPS data (latitude, longitude, elevation, time) is read from a GPX file.
 The climb rate is calculated using a parametrizable Kalman filter.
 Results are displayed as time-series plots using matplotlib.
 
-Args:
-    argv[1]: name of the gpx file
+Parameters
+----------
+argv[1]: string
+    name of the gpx file
 """
 
 __author__ = "Helmut Schmidt, https://github.com/huirad"
@@ -41,7 +43,6 @@ import xml.etree.ElementTree as ET
 import datetime as dt
 
 import matplotlib as mpl
-#mpl.use('TkAgg')
 import matplotlib.pyplot as plt
 
 
@@ -77,10 +78,7 @@ class Track:
     """
 
     def __init__(self):
-        """Default constructor
-        
-        Initialize all attributes as empty lists.
-        
+        """
         Parameters
         ----------
         none
@@ -423,7 +421,6 @@ def main():
 
 
     #everything set ==> show the plot
-    #plt.pause(100) #to get matplotlib figure in spyder with TkAgg
     plt.show()
 
 

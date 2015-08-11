@@ -26,39 +26,71 @@ Instead of specifying the namespace URL explicitly, you can define and use a nam
 2.c) Backend selection
 ----------------------
     In my openSuSE installation, by default no graph is shown because the matplotlib backend is not pre-set.
+    
     To set the backend, 
-    - either insert
+    set the backend by placing
+        backend      : TkAgg
+      in .config/matplotlib/matplotlibrc
+    See see http://matplotlib.org/users/customizing.html.
+    
+    As a quick hack (not recommended), you can also insert
         mpl.use('TkAgg')
       between
         import matplotlib as mpl
       and
         import matplotlib.pyplot as plt
-    - or (see http://matplotlib.org/users/customizing.html): set the backend by placing
-        backend      : TkAgg
-      in .config/matplotlib/matplotlibrc
-
+      
+    Notes on the Spyder IDE:
+    - The Qt4Agg backend is preselected.
+      - Qt4Agg comes preinstalled with WinPython
+      - On openSuSE, install the python3-matplotlib-qt4 package
+    - the TkAgg backend does not work very well:
+      I get grey windows without a plot when running a script from 
+      the normal Console (in IPython Console it's better)
+      Only if you replace
+        plt.show()
+      with
+        plt.pause(100) #to get matplotlib figure in spyder with TkAgg
+      it is useable more or less
+      
 3.) Python Style Guide and Coding conventions
 =============================================
 To ensure readability, maintainability and consistency of the code,
 the following coding and documentation conventions shall apply be followed
 - PEP 008: https://www.python.org/dev/peps/pep-0008/
 - PEP 257: https://www.python.org/dev/peps/pep-0257/
-- For comments, in particular the google style has to be followed
-  http://google.github.io/styleguide/pyguide.html?showone=Comments#Comments
+- PEP 287: https://www.python.org/dev/peps/pep-0287/
+- For comments, in particular the numpydoc style has to be followed
+  https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt
 
-Example pydoc command line: 
-python C:\Python34\Lib\pydoc.py -w pyclimb 
+Dcoumentation can be created 
+- by the classic pydoc which is part of the standard python distribution
+  Example pydoc command line: 
+    python C:\Python34\Lib\pydoc.py -w pyclimb 
+- by the more advanced Sphinx framework (http://sphinx-doc.org/)
+  which is meanwhile used for the official python documentation
+  For nice rendering, the napoleon extension for sphinx is needed
+  (https://sphinxcontrib-napoleon.readthedocs.org/en/latest/)
+  which comes already with WinPython and creates nicely formatted 
+  help in the Object Inspector Window
+  
   
 3.a) Module Header
 ------------------
 In particular, each Python module shall start with
+- the shebang indicating which python version to use
 - a copyright statement (behind #)
 - __author__, __version__ , __date__, __credits__ variables
+  Note: Put an abbreviated copyright statement in the 
+  __credits__ variable as there is no __copyright__ variable
 - a docstring for the module
+- a version history comment block
 
 
 Example:
-##########################################################################
+#!/usr/bin/python3
+
+#######################################################################
 #
 # Copyright (C) 2015, Helmut Schmidt
 #
@@ -67,23 +99,42 @@ Example:
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
-##########################################################################
-__author__ = "Helmut Schmidt, https://github.com/huirad"
-__version__ = "0.2"
-__date__ = "2015-07-09"
-__credits__ = "http://www.cs.unc.edu/~welch/kalman/"
+#######################################################################
 
+"""Determine the climb rate from a GPS log with elevation data.
+
+GPS data (latitude, longitude, elevation, time) is read from a GPX file.
+The climb rate is calculated using a parametrizable Kalman filter.
+Results are displayed as time-series plots using matplotlib.
+
+Parameters
+----------
+argv[1]: string
+    name of the gpx file
 """
-Example Module for XXXX.
 
-Provides guidelines on coding and documentation conventions.
+__author__ = "Helmut Schmidt, https://github.com/huirad"
+__version__ = "0.3"
+__date__ = "2015-08-04"
+__credits__ = "Copyright: Helmut Schmidt. License: MPLv2"
 
-""" 
+#######################################################################
+#
+# Module-History
+#  Date         Author              Reason
+#  02-Mar-2015  Helmut Schmidt      v0.1 Initial version
+#  09-Jul-2015  Helmut Schmidt      v0.2 Improve source documentation
+#  05-Aug-2015  Helmut Schmidt      v0.3 Remove pylint warnings
+#
+#######################################################################
 
 
+
+
+
+
+4.) TODO: Check numpydoc rendering on openSuSE::Spyder
 
 python3-numpydoc!!!!
-python3-matplotlib-qt4 !!
-
 http://sphinx-doc.org/tutorial.html
 sudo pip install git+https://github.com/sphinx-doc/sphinx@stable
