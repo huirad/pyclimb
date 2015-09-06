@@ -289,7 +289,9 @@ class ClimbKF:
     def get_ele(self):
         """Access function to  the elevation.
 
-        Returns:
+        Returns
+        -------
+        float
             The current elevation.
         """
         return self._state[0, 0]
@@ -297,7 +299,9 @@ class ClimbKF:
     def get_climb(self):
         """Access function to the climb rate.
 
-        Returns:
+        Returns
+        -------
+        float
             The current climb rate.
         """
         return self._state[1, 0]
@@ -305,7 +309,9 @@ class ClimbKF:
     def get_time(self):
         """Convenience function to the last timestamp.
 
-        Returns:
+        Returns
+        -------
+        float
             The current timestamp.
         """
         return self._last_time
