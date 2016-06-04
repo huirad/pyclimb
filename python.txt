@@ -82,6 +82,9 @@ Documentation can be created
   (https://sphinxcontrib-napoleon.readthedocs.org/en/latest/)
   which comes already with WinPython and creates nicely formatted 
   help in the Object Inspector Window
+Note: Sphinx can also render math expressions in LaTex format.
+See http://www.sphinx-doc.org/en/stable/ext/math.html
+This works nice in the Spyder IDE coming wint WinPython
   
   
 3.b) Module Header
